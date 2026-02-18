@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinCred Admin - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0f1e;
+    --navy-mid: #111827;
+    --navy-light: #1a2540;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: rgba(201,168,76,0.15);
+    --text: #e8e4d9;
+    --text-muted: #8a8fa8;
+    --border: rgba(201,168,76,0.2);
+    --success: #22c55e;
+    --danger: #ef4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 20% 50%, rgba(201,168,76,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(201,168,76,0.08) 0%, transparent 50%);
+    animation: rotate 20s linear infinite;
+  }
+
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .login-container {
+    position: relative;
+    z-index: 1;
+    background: rgba(17,24,39,0.95);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 40px;
+    max-width: 440px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+  }
+
+  .logo-section {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--gold);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .logo span {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .tagline {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .login-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--text);
+    margin-bottom: 32px;
+    font-weight: 600;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(26,37,64,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.3s;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: rgba(26,37,64,0.8);
+  }
+
+  .form-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .btn-login {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: var(--navy);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 8px;
+  }
+
+  .btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(201,168,76,0.3);
+  }
+
+  .btn-login:active {
+    transform: translateY(0);
+  }
+
+  .divider {
+    text-align: center;
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .divider span {
+    position: relative;
+    background: rgba(17,24,39,0.95);
+    padding: 0 16px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .demo-credentials {
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 24px;
+  }
+
+  .demo-title {
+    font-size: 0.75rem;
+    color: #3b82f6;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .demo-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .demo-item:last-child {
+    border-bottom: none;
+  }
+
+  .demo-item span:first-child {
+    color: var(--text-muted);
+  }
+
+  .demo-item span:last-child {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.875rem;
+    display: none;
+  }
+
+  .alert.success {
+    background: rgba(34,197,94,0.15);
+    border: 1px solid rgba(34,197,94,0.3);
+    color: var(--success);
+  }
+
+  .alert.error {
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: var(--danger);
+  }
+
+  .alert.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .loading.show {
+    display: block;
+  }
+
+  .spinner {
+    border: 3px solid rgba(201,168,76,0.1);
+    border-top: 3px solid var(--gold);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 12px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 480px) {
+    .login-container {
+      padding: 32px 24px;
+    }
+
+    .logo {
+      font-size: 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="logo-section">
+    <div class="logo">Fin<span>Cred</span></div>
+    <div class="tagline">Beyond Trust</div>
+  </div>
+
+  <h2 class="login-title">Admin Login</h2>
+
+  <div id="alert" class="alert"></div>
+
+  <form id="loginForm" onsubmit="handleLogin(event)">
+    <div class="form-group">
+      <label class="form-label">Email Address</label>
+      <input type="email" id="email" class="form-input" placeholder="Enter your email" value="admin@fincred.com" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="password" class="form-input" placeholder="Enter your password" value="admin123" required>
+    </div>
+
+    <button type="submit" class="btn-login">Login to Dashboard</button>
+  </form>
+
+  <div class="divider">
+    <span>Demo Credentials</span>
+  </div>
+
+  <div class="demo-credentials">
+    <div class="demo-title">🔑 Admin Access (Full Rights)</div>
+    <div class="demo-item">
+      <span>Email:</span>
+      <span>admin@fincred.com</span>
+    </div>
+    <div class="demo-item">
+      <span>Password:</span>
+      <span>admin123</span>
+    </div>
+    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; color: var(--text-muted);">
+      ✓ Full access to all modules<br>
+      ✓ View, edit & approve permissions<br>
+      ✓ Complete data management
+    </div>
+  </div>
+
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <div style="color: var(--text-muted); font-size: 0.875rem;">Authenticating...</div>
+  </div>
+</div>
+
+<script>
+  // Handle login
+  function handleLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const alertBox = document.getElementById('alert');
+    const form = document.getElementById('loginForm');
+    const loading = document.getElementById('loading');
+    
+    // Hide previous alerts
+    alertBox.classList.remove('show');
+    
+    // Show loading
+    form.style.display = 'none';
+    loading.classList.add('show');
+    
+    // Simulate authentication delay
+    setTimeout(function() {
+      let isValid = false;
+      
+      // Validate credentials
+      if (email === 'admin@fincred.com' && password === 'admin123') {
+        isValid = true;
+      }
+      
+      if (isValid) {
+        // Store session
+        sessionStorage.setItem('userRole', 'admin');
+        sessionStorage.setItem('userEmail', email);
+        sessionStorage.setItem('loginTime', new Date().toISOString());
+        sessionStorage.setItem('hasFullAccess', 'true');
+        
+        // Show success message
+        alertBox.textContent = '✓ Login successful! Redirecting to dashboard...';
+        alertBox.className = 'alert success show';
+        
+        // Redirect after short delay
+        setTimeout(function() {
+          window.location.href = 'fincred-admin-dashboard.html';
+        }, 1000);
+      } else {
+        // Show error
+        form.style.display = 'block';
+        loading.classList.remove('show');
+        alertBox.textContent = '✗ Invalid email or password. Please try again.';
+        alertBox.className = 'alert error show';
+      }
+    }, 1500);
+    
+    return false;
+  }
+</script>
+
+</body>
+</html>
